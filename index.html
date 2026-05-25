@@ -240,6 +240,28 @@ nav.scrolled {
   transition: var(--transition);
   width: 100%;
 }
+.mobile-menu-close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: 1px solid var(--gray-mid);
+  color: var(--white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, color 0.2s;
+  z-index: 1200;
+  opacity: 0;
+  transform: rotate(-90deg);
+  transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s, border-color 0.2s, color 0.2s;
+}
+.mobile-menu-close svg { width: 20px; height: 20px; }
+.mobile-menu-close:hover { border-color: var(--red); color: var(--red); }
+.mobile-menu.open .mobile-menu-close { opacity: 1; transform: rotate(0deg); }
 .mobile-menu-cta a:hover { background: transparent; color: var(--red); }
 
 /* ── HERO ── */
@@ -539,6 +561,185 @@ section { position: relative; }
   margin-top: 8px;
 }
 
+/* ── TRABAJOS GALERÍA ── */
+#trabajos {
+  padding: 120px 0;
+  background: var(--black);
+  border-top: 1px solid var(--gray-mid);
+}
+.trabajos-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 60px;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.trabajos-intro {
+  max-width: 540px;
+}
+.trabajos-intro p {
+  font-size: 15px;
+  color: rgba(192,192,192,0.75);
+  line-height: 1.8;
+  margin-top: 16px;
+}
+.trabajos-filter {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--titanium);
+  background: none;
+  border: 1px solid var(--gray-mid);
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.filter-btn:hover,
+.filter-btn.active {
+  border-color: var(--red);
+  color: var(--white);
+  background: rgba(192,17,26,0.08);
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 240px;
+  gap: 4px;
+}
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--black-3);
+}
+.gallery-item.wide  { grid-column: span 2; }
+.gallery-item.tall  { grid-row: span 2; }
+.gallery-item img,
+.gallery-item video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.4s;
+  filter: brightness(0.85) saturate(0.9);
+}
+.gallery-item:hover img,
+.gallery-item:hover video {
+  transform: scale(1.06);
+  filter: brightness(1) saturate(1);
+}
+.gallery-item-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(5,5,5,0.85) 100%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px;
+}
+.gallery-item:hover .gallery-item-overlay { opacity: 1; }
+.gallery-item-tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 6px;
+}
+.gallery-item-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  letter-spacing: 1px;
+  color: var(--white);
+  line-height: 1.1;
+}
+.gallery-item-play {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 52px; height: 52px;
+  background: rgba(192,17,26,0.85);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s, background 0.3s;
+  pointer-events: none;
+}
+.gallery-item:hover .gallery-item-play {
+  transform: translate(-50%, -50%) scale(1.12);
+  background: var(--red);
+}
+.gallery-item-play svg { width: 22px; height: 22px; fill: #fff; margin-left: 3px; }
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(5,5,5,0.97);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.lightbox.open { opacity: 1; pointer-events: all; }
+.lightbox-media {
+  max-width: 90vw;
+  max-height: 85vh;
+  object-fit: contain;
+  display: block;
+}
+.lightbox-close {
+  position: absolute;
+  top: 24px; right: 24px;
+  width: 44px; height: 44px;
+  background: none;
+  border: 1px solid var(--gray-mid);
+  color: var(--white);
+  font-size: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, color 0.2s;
+}
+.lightbox-close:hover { border-color: var(--red); color: var(--red); }
+.lightbox-close svg { width: 18px; height: 18px; }
+.lightbox-caption {
+  position: absolute;
+  bottom: 24px;
+  left: 50%; transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--titanium);
+}
+
+/* Gallery mobile */
+@media (max-width: 768px) {
+  #trabajos { padding: 72px 0; }
+  .trabajos-header { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .gallery-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 180px;
+  }
+  .gallery-item.wide { grid-column: span 2; }
+  .gallery-item.tall { grid-row: span 1; }
+  .gallery-item-overlay { opacity: 1; }
+}
+
 /* ── DIFERENCIALES ── */
 #diferenciales {
   padding: 120px 0;
@@ -605,6 +806,22 @@ section { position: relative; }
   padding: 120px 0;
   background: var(--black-2);
   border-top: 1px solid var(--gray-mid);
+  max-height: 0;
+  overflow: hidden;
+  padding: 0;
+  border-top: none;
+  opacity: 0;
+  transition: max-height 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.5s ease,
+              padding 0.5s ease;
+  pointer-events: none;
+}
+#servicios.visible {
+  max-height: 2000px;
+  padding: 120px 0;
+  border-top: 1px solid var(--gray-mid);
+  opacity: 1;
+  pointer-events: auto;
 }
 .servicios-grid {
   display: grid;
@@ -1153,7 +1370,7 @@ footer {
   .diff-card { padding: 32px 24px; }
 
   /* Servicios */
-  #servicios { padding: 72px 0; }
+  #servicios.visible { padding: 72px 0; }
   .servicios-grid { grid-template-columns: 1fr; }
   .servicio-card { padding: 36px 28px; }
 
@@ -1247,6 +1464,9 @@ footer {
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Cerrar menú">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+  </button>
   <ul class="mobile-menu-links">
     <li><a href="#servicios" class="mobile-link">Servicios <span class="arr">→</span></a></li>
     <li><a href="#proceso" class="mobile-link">Proceso <span class="arr">→</span></a></li>
@@ -1326,6 +1546,119 @@ footer {
   </div>
 </section>
 
+<!-- TRABAJOS -->
+<section id="trabajos">
+  <div class="container">
+    <div class="trabajos-header reveal">
+      <div class="trabajos-intro">
+        <div class="section-label">Nuestros trabajos</div>
+        <h2 class="section-title">Cada vehículo,<br><span>una historia</span></h2>
+        <p>Esto no es publicidad — son resultados reales. Cada imagen y video refleja el nivel técnico con el que intervenimos cada vehículo que entra a nuestro taller. Diagnósticos complejos, correcciones precisas, transformaciones reales.</p>
+      </div>
+      <div class="trabajos-filter">
+        <button class="filter-btn active" data-filter="all">Todo</button>
+        <button class="filter-btn" data-filter="diagnostico">Diagnóstico</button>
+        <button class="filter-btn" data-filter="mecanica">Mecánica</button>
+        <button class="filter-btn" data-filter="rendimiento">Rendimiento</button>
+      </div>
+    </div>
+
+    <div class="gallery-grid reveal">
+
+      <!-- Item 1 — foto grande -->
+      <div class="gallery-item wide" data-category="diagnostico">
+        <img
+          src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=900&q=80"
+          alt="Diagnóstico electrónico avanzado"
+          loading="lazy"
+        >
+        <div class="gallery-item-overlay">
+          <div class="gallery-item-tag">Diagnóstico</div>
+          <div class="gallery-item-title">Escaneo completo — BMW Serie 3</div>
+        </div>
+      </div>
+
+      <!-- Item 2 — foto vertical -->
+      <div class="gallery-item tall" data-category="mecanica">
+        <img
+          src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&q=80"
+          alt="Mecánica especializada"
+          loading="lazy"
+        >
+        <div class="gallery-item-overlay">
+          <div class="gallery-item-tag">Mecánica</div>
+          <div class="gallery-item-title">Motor — Toyota Hilux</div>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="gallery-item" data-category="rendimiento">
+        <img
+          src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80"
+          alt="Optimización de rendimiento"
+          loading="lazy"
+        >
+        <div class="gallery-item-overlay">
+          <div class="gallery-item-tag">Rendimiento</div>
+          <div class="gallery-item-title">Optimización — Mustang GT</div>
+        </div>
+      </div>
+
+      <!-- Item 4 -->
+      <div class="gallery-item" data-category="diagnostico">
+        <img
+          src="https://images.unsplash.com/photo-1590362891991-f776e747a588?w=600&q=80"
+          alt="Taller especializado"
+          loading="lazy"
+        >
+        <div class="gallery-item-overlay">
+          <div class="gallery-item-tag">Diagnóstico</div>
+          <div class="gallery-item-title">Corrección de falla — Audi A4</div>
+        </div>
+      </div>
+
+      <!-- Item 5 — video placeholder -->
+      <div class="gallery-item wide" data-category="mecanica" data-type="video">
+        <img
+          src="https://images.unsplash.com/photo-1562911791-c7a97b729ec5?w=900&q=80"
+          alt="Video — intervención mecánica"
+          loading="lazy"
+        >
+        <div class="gallery-item-play">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="gallery-item-overlay">
+          <div class="gallery-item-tag">Video · Mecánica</div>
+          <div class="gallery-item-title">Intervención de transmisión — Camioneta</div>
+        </div>
+      </div>
+
+      <!-- Item 6 -->
+      <div class="gallery-item" data-category="rendimiento">
+        <img
+          src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&q=80"
+          alt="Resultado final"
+          loading="lazy"
+        >
+        <div class="gallery-item-overlay">
+          <div class="gallery-item-tag">Rendimiento</div>
+          <div class="gallery-item-title">Ajuste fino — Motor turbo</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+  </button>
+  <img class="lightbox-media" id="lightboxMedia" src="" alt="">
+  <div class="lightbox-caption" id="lightboxCaption"></div>
+</div>
+
 <!-- DIFERENCIALES -->
 <section id="diferenciales">
   <div class="container">
@@ -1397,7 +1730,49 @@ footer {
     <div class="servicios-grid reveal">
 
       <div class="servicio-card">
-        <div class="servicio-num">01 / Electrónica</div>
+        <div class="servicio-num">01 / Afinaciones</div>
+        <div class="servicio-icon">
+          <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="28" cy="28" r="18"/>
+            <circle cx="28" cy="28" r="6"/>
+            <path d="M28 10v6M28 40v6M10 28h6M40 28h6M15.5 15.5l4.2 4.2M36.3 36.3l4.2 4.2M40.5 15.5l-4.2 4.2M19.7 36.3l-4.2 4.2"/>
+          </svg>
+        </div>
+        <div class="servicio-title">Afinaciones</div>
+        <div class="servicio-text">Ajuste integral del motor para restaurar y superar su desempeño original — bujías, filtros, inyectores y calibración de sistemas electrónicos.</div>
+        <a href="https://wa.me/524443860800?text=Quiero%20una%20afinaci%C3%B3n%20para%20mi%20veh%C3%ADculo." class="servicio-link" target="_blank">Solicitar servicio →</a>
+      </div>
+
+      <div class="servicio-card">
+        <div class="servicio-num">02 / Aceite</div>
+        <div class="servicio-icon">
+          <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M28 8c0 0-14 14-14 24a14 14 0 0028 0C42 22 28 8 28 8z"/>
+            <path d="M28 44v-8M21 38l7-8 7 8"/>
+          </svg>
+        </div>
+        <div class="servicio-title">Cambios de aceite</div>
+        <div class="servicio-text">Cambio de aceite con lubricantes de alta especificación según el motor y uso del vehículo. Incluye revisión de niveles y filtro de aceite.</div>
+        <a href="https://wa.me/524443860800?text=Necesito%20un%20cambio%20de%20aceite." class="servicio-link" target="_blank">Solicitar servicio →</a>
+      </div>
+
+      <div class="servicio-card">
+        <div class="servicio-num">03 / Frenos</div>
+        <div class="servicio-icon">
+          <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="28" cy="28" r="20"/>
+            <circle cx="28" cy="28" r="8"/>
+            <path d="M28 8v6M28 42v6M8 28h6M42 28h6"/>
+            <circle cx="28" cy="28" r="3" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="servicio-title">Sistema de frenos</div>
+        <div class="servicio-text">Diagnóstico, mantenimiento y reparación del sistema de frenado — pastillas, discos, calibradores y líquido de frenos con precisión técnica.</div>
+        <a href="https://wa.me/524443860800?text=Necesito%20revisi%C3%B3n%20del%20sistema%20de%20frenos." class="servicio-link" target="_blank">Solicitar servicio →</a>
+      </div>
+
+      <div class="servicio-card">
+        <div class="servicio-num">04 / Diagnóstico</div>
         <div class="servicio-icon">
           <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5">
             <rect x="8" y="16" width="40" height="28" rx="3"/>
@@ -1406,13 +1781,58 @@ footer {
             <path d="M22 30h-6M34 30h6M28 24v-6M28 36v6"/>
           </svg>
         </div>
-        <div class="servicio-title">Diagnóstico electrónico avanzado</div>
-        <div class="servicio-text">Escaneo computarizado con equipos de última generación. Lectura de códigos OBD, análisis de sensores y sistemas de control en tiempo real.</div>
-        <a href="https://wa.me/524443860800?text=Necesito%20un%20diagn%C3%B3stico%20electr%C3%B3nico." class="servicio-link" target="_blank">Solicitar servicio →</a>
+        <div class="servicio-title">Diagnósticos generales</div>
+        <div class="servicio-text">Escaneo computarizado completo de todos los módulos del vehículo. Detección precisa de fallas activas e históricas con reporte técnico detallado.</div>
+        <a href="https://wa.me/524443860800?text=Necesito%20un%20diagn%C3%B3stico%20general." class="servicio-link" target="_blank">Solicitar servicio →</a>
       </div>
 
       <div class="servicio-card">
-        <div class="servicio-num">02 / Corrección</div>
+        <div class="servicio-num">05 / Transmisión</div>
+        <div class="servicio-icon">
+          <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="14" cy="28" r="7"/>
+            <circle cx="42" cy="28" r="7"/>
+            <path d="M21 28h14"/>
+            <path d="M14 21v-8M42 21v-8M14 35v8M42 35v8"/>
+          </svg>
+        </div>
+        <div class="servicio-title">Afinaciones de transmisión</div>
+        <div class="servicio-text">Revisión, calibración y reparación de transmisiones automáticas y mecánicas. Corrección de cambios bruscos, patinamiento y ruidos anómalos.</div>
+        <a href="https://wa.me/524443860800?text=Necesito%20revisi%C3%B3n%20de%20mi%20transmisi%C3%B3n." class="servicio-link" target="_blank">Solicitar servicio →</a>
+      </div>
+
+      <div class="servicio-card">
+        <div class="servicio-num">06 / Suspensión</div>
+        <div class="servicio-icon">
+          <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 44c0-8 4-12 8-16s8-8 8-16"/>
+            <path d="M44 44c0-8-4-12-8-16s-8-8-8-16"/>
+            <path d="M8 44h40"/>
+            <circle cx="16" cy="44" r="4"/>
+            <circle cx="40" cy="44" r="4"/>
+          </svg>
+        </div>
+        <div class="servicio-title">Reparación de suspensión</div>
+        <div class="servicio-text">Diagnóstico y reparación de amortiguadores, resortes, rótulas y brazos de control. Restauramos la estabilidad, confort y seguridad de manejo.</div>
+        <a href="https://wa.me/524443860800?text=Necesito%20revisi%C3%B3n%20de%20suspensi%C3%B3n." class="servicio-link" target="_blank">Solicitar servicio →</a>
+      </div>
+
+      <div class="servicio-card">
+        <div class="servicio-num">07 / Potenciación</div>
+        <div class="servicio-icon">
+          <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M8 36l10-16 8 10 8-18 10 12"/>
+            <path d="M44 24l4-4-4-4"/>
+            <path d="M8 44h40"/>
+          </svg>
+        </div>
+        <div class="servicio-title">Potenciaciones</div>
+        <div class="servicio-text">Incremento real de potencia y torque mediante reprogramación de ECU, mejoras en admisión, escape y sistemas de combustible. Más rendimiento, mismo motor.</div>
+        <a href="https://wa.me/524443860800?text=Quiero%20potenciar%20mi%20veh%C3%ADculo." class="servicio-link" target="_blank">Solicitar servicio →</a>
+      </div>
+
+      <div class="servicio-card">
+        <div class="servicio-num">08 / Corrección</div>
         <div class="servicio-icon">
           <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5">
             <path d="M40 8l-4 4 8 8 4-4-8-8z"/>
@@ -1421,65 +1841,21 @@ footer {
           </svg>
         </div>
         <div class="servicio-title">Corrección de fallas complejas</div>
-        <div class="servicio-text">Identificación y resolución de fallas intermitentes, problemas eléctricos de difícil diagnóstico y averías que otros talleres no lograron resolver.</div>
+        <div class="servicio-text">Resolución de fallas intermitentes y problemas que otros talleres no lograron identificar. Metodología técnica documentada y sin suposiciones.</div>
         <a href="https://wa.me/524443860800?text=Tengo%20una%20falla%20compleja%20que%20necesita%20atenci%C3%B3n." class="servicio-link" target="_blank">Solicitar servicio →</a>
       </div>
 
       <div class="servicio-card">
-        <div class="servicio-num">03 / Rendimiento</div>
+        <div class="servicio-num">09 / Mantenimiento</div>
         <div class="servicio-icon">
           <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M28 8v8M28 40v8M8 28h8M40 28h8"/>
-            <circle cx="28" cy="28" r="14"/>
-            <circle cx="28" cy="28" r="6"/>
-            <path d="M28 22l3 6h-6l3-6z"/>
-          </svg>
-        </div>
-        <div class="servicio-title">Optimización de rendimiento</div>
-        <div class="servicio-text">Ajuste fino de parámetros del motor, análisis de combustión y optimización de sistemas para extraer el máximo potencial de tu vehículo.</div>
-        <a href="https://wa.me/524443860800?text=Quiero%20optimizar%20el%20rendimiento%20de%20mi%20veh%C3%ADculo." class="servicio-link" target="_blank">Solicitar servicio →</a>
-      </div>
-
-      <div class="servicio-card">
-        <div class="servicio-num">04 / Mecánica</div>
-        <div class="servicio-icon">
-          <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M36 8a8 8 0 010 16H12a8 8 0 010-16h24zM20 24v24"/>
-            <circle cx="20" cy="40" r="6"/>
-          </svg>
-        </div>
-        <div class="servicio-title">Mecánica especializada</div>
-        <div class="servicio-text">Intervenciones mecánicas de alta complejidad — motores, transmisiones, sistemas de suspensión y frenos con estándar técnico de referencia.</div>
-        <a href="https://wa.me/524443860800?text=Necesito%20servicio%20de%20mec%C3%A1nica%20especializada." class="servicio-link" target="_blank">Solicitar servicio →</a>
-      </div>
-
-      <div class="servicio-card">
-        <div class="servicio-num">05 / Escaneo</div>
-        <div class="servicio-icon">
-          <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="8" y="12" width="40" height="32" rx="2"/>
-            <line x1="8" y1="24" x2="48" y2="24"/>
-            <line x1="16" y1="32" x2="24" y2="32"/>
-            <line x1="28" y1="32" x2="40" y2="32"/>
-            <line x1="16" y1="38" x2="30" y2="38"/>
-          </svg>
-        </div>
-        <div class="servicio-title">Escaneo computarizado</div>
-        <div class="servicio-text">Análisis profundo con escáner de diagnóstico profesional. Lectura de todos los módulos del vehículo: ECU, ABS, airbag, transmisión y más.</div>
-        <a href="https://wa.me/524443860800?text=Quiero%20un%20escaneo%20computarizado%20completo." class="servicio-link" target="_blank">Solicitar servicio →</a>
-      </div>
-
-      <div class="servicio-card">
-        <div class="servicio-num">06 / Mantenimiento</div>
-        <div class="servicio-icon">
-          <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M28 10v36M10 28h36"/>
-            <circle cx="28" cy="28" r="18"/>
-            <circle cx="28" cy="28" r="8"/>
+            <path d="M20 12a16 16 0 000 32M36 12a16 16 0 010 32"/>
+            <path d="M28 10v4M28 42v4"/>
+            <rect x="22" y="24" width="12" height="8" rx="1"/>
           </svg>
         </div>
         <div class="servicio-title">Mantenimiento de precisión</div>
-        <div class="servicio-text">Programas de mantenimiento preventivo diseñados para preservar el rendimiento y extender la vida útil de tu vehículo con estándares profesionales.</div>
+        <div class="servicio-text">Programas preventivos diseñados por historial y exigencia del vehículo. Preservamos el rendimiento y extendemos la vida útil de cada componente.</div>
         <a href="https://wa.me/524443860800?text=Necesito%20un%20programa%20de%20mantenimiento." class="servicio-link" target="_blank">Solicitar servicio →</a>
       </div>
 
@@ -1775,7 +2151,46 @@ footer {
 </a>
 
 <script>
-// NAV scroll
+// Servicios section — mostrar/ocultar al clickear nav
+const serviciosSection = document.getElementById('servicios');
+
+function showServicios(e) {
+  e.preventDefault();
+  const isVisible = serviciosSection.classList.contains('visible');
+  if (!isVisible) {
+    serviciosSection.classList.add('visible');
+    // Trigger reveal animations inside
+    serviciosSection.querySelectorAll('.reveal').forEach(el => {
+      el.classList.add('visible');
+    });
+    // Scroll suave a la sección
+    setTimeout(() => {
+      serviciosSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  } else {
+    serviciosSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+// Todos los links que apuntan a #servicios
+document.querySelectorAll('a[href="#servicios"]').forEach(link => {
+  link.addEventListener('click', showServicios);
+});
+
+// Ocultar servicios cuando se hace scroll a cualquier otra sección
+const otherSections = document.querySelectorAll('section:not(#servicios)');
+const hideServiciosObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && serviciosSection.classList.contains('visible')) {
+      // Solo ocultar si la sección visible no es servicios ni una adyacente
+      const rect = serviciosSection.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > window.innerHeight) {
+        serviciosSection.classList.remove('visible');
+      }
+    }
+  });
+}, { threshold: 0.3 });
+otherSections.forEach(s => hideServiciosObserver.observe(s));
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 60);
@@ -1817,6 +2232,49 @@ const counterObs = new IntersectionObserver((entries) => {
 }, { threshold: 0.3 });
 document.querySelectorAll('.authority-stats').forEach(el => counterObs.observe(el));
 
+// Gallery filters
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      const match = filter === 'all' || item.dataset.category === filter;
+      item.style.opacity = match ? '1' : '0.2';
+      item.style.pointerEvents = match ? 'auto' : 'none';
+    });
+  });
+});
+
+// Lightbox
+const lightbox = document.getElementById('lightbox');
+const lightboxMedia = document.getElementById('lightboxMedia');
+const lightboxCaption = document.getElementById('lightboxCaption');
+const lightboxClose = document.getElementById('lightboxClose');
+
+document.querySelectorAll('.gallery-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const img = item.querySelector('img');
+    const title = item.querySelector('.gallery-item-title');
+    if (img) {
+      lightboxMedia.src = img.src;
+      lightboxMedia.alt = img.alt;
+      lightboxCaption.textContent = title ? title.textContent : '';
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+  });
+});
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => { lightboxMedia.src = ''; }, 300);
+}
+lightboxClose.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
 // FAQ accordion
 document.querySelectorAll('.faq-question').forEach(q => {
   q.addEventListener('click', () => {
@@ -1827,10 +2285,16 @@ document.querySelectorAll('.faq-question').forEach(q => {
   });
 });
 
-// Hamburger menu
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
+const mobileMenuClose = document.getElementById('mobileMenuClose');
 const mobileLinks = document.querySelectorAll('.mobile-link');
+
+function closeMenu() {
+  hamburger.classList.remove('open');
+  mobileMenu.classList.remove('open');
+  document.body.style.overflow = '';
+}
 
 hamburger.addEventListener('click', () => {
   const isOpen = hamburger.classList.toggle('open');
@@ -1838,12 +2302,10 @@ hamburger.addEventListener('click', () => {
   document.body.style.overflow = isOpen ? 'hidden' : '';
 });
 
+mobileMenuClose.addEventListener('click', closeMenu);
+
 mobileLinks.forEach(link => {
-  link.addEventListener('click', () => {
-    hamburger.classList.remove('open');
-    mobileMenu.classList.remove('open');
-    document.body.style.overflow = '';
-  });
+  link.addEventListener('click', closeMenu);
 });
 
 // Parallax hero grid — solo en desktop
@@ -1854,13 +2316,28 @@ if (window.innerWidth > 768) {
   }, { passive: true });
 }
 
-// Pausar video cuando no está visible (ahorra batería en mobile)
+// Forzar play del video siempre (autoplay en mobile requiere interacción o muted+playsinline)
 const heroVideo = document.querySelector('.hero-video-wrap video');
 if (heroVideo) {
-  const videoObs = new IntersectionObserver(entries => {
-    entries.forEach(e => e.isIntersecting ? heroVideo.play().catch(()=>{}) : heroVideo.pause());
-  }, { threshold: 0.1 });
-  videoObs.observe(heroVideo);
+  heroVideo.muted = true;
+  heroVideo.playsInline = true;
+  heroVideo.setAttribute('playsinline', '');
+  heroVideo.setAttribute('muted', '');
+
+  const forcePlay = () => {
+    heroVideo.play().catch(() => {
+      // Si falla, reintentamos en el primer toque del usuario
+      document.addEventListener('touchstart', () => heroVideo.play().catch(()=>{}), { once: true });
+      document.addEventListener('click', () => heroVideo.play().catch(()=>{}), { once: true });
+    });
+  };
+
+  forcePlay();
+
+  // Si el navegador pausa el video (ej: tab oculto), lo reanudamos al volver
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) forcePlay();
+  });
 }
 </script>
 
