@@ -152,7 +152,7 @@ nav.scrolled {
 
 /* ── HAMBURGER ── */
 .hamburger {
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 4px;
@@ -164,6 +164,7 @@ nav.scrolled {
   padding: 2px;
   z-index: 1100;
 }
+.nav-links { display: none; }
 .hamburger span {
   display: block;
   width: 100%;
@@ -179,11 +180,11 @@ nav.scrolled {
 
 /* ── MOBILE MENU — panel lateral derecho ── */
 .mobile-menu {
-  display: none;
+  display: flex;
   position: fixed;
   top: 0; right: 0;
   height: 100%;
-  width: 240px;
+  width: 260px;
   z-index: 1050;
   background: rgba(8,8,8,0.97);
   backdrop-filter: blur(20px);
@@ -232,9 +233,11 @@ nav.scrolled {
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
 .mobile-menu.open .mobile-menu-links li:nth-child(1) { opacity:1; transform:translateX(0); transition-delay:0.06s; }
-.mobile-menu.open .mobile-menu-links li:nth-child(2) { opacity:1; transform:translateX(0); transition-delay:0.1s; }
+.mobile-menu.open .mobile-menu-links li:nth-child(2) { opacity:1; transform:translateX(0); transition-delay:0.10s; }
 .mobile-menu.open .mobile-menu-links li:nth-child(3) { opacity:1; transform:translateX(0); transition-delay:0.14s; }
 .mobile-menu.open .mobile-menu-links li:nth-child(4) { opacity:1; transform:translateX(0); transition-delay:0.18s; }
+.mobile-menu.open .mobile-menu-links li:nth-child(5) { opacity:1; transform:translateX(0); transition-delay:0.22s; }
+.mobile-menu.open .mobile-menu-links li:nth-child(6) { opacity:1; transform:translateX(0); transition-delay:0.26s; }
 .mobile-menu-links a {
   display: flex;
   align-items: center;
@@ -1588,9 +1591,7 @@ footer {
   .nav-logo img { height: 34px; }
   .nav-logo-mark { width: 36px; height: 36px; font-size: 13px; }
   .nav-logo-text { font-size: 19px; letter-spacing: 2px; }
-  .nav-links { display: none; }
   .nav-cta { display: none; }
-  .hamburger { display: flex; }
   .mobile-menu { display: flex; }
   .mobile-menu-overlay { display: block; }
 
@@ -1770,12 +1771,6 @@ footer {
   <a href="#" class="nav-logo">
     <img src="https://res.cloudinary.com/dvvuwigmy/image/upload/v1779737050/IMG_6872_cscbj3_1_vkp7px.png" alt="High Performance SLP" style="height:80px;width:auto;object-fit:contain;display:block;margin:auto;">
   </a>
-  <ul class="nav-links">
-    <li><a href="#servicios">Servicios</a></li>
-    <li><a href="#proceso">Proceso</a></li>
-    <li><a href="#testimonios">Clientes</a></li>
-    <li><a href="#ubicacion">Ubicación</a></li>
-  </ul>
   <a href="https://wa.me/524443860800?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20un%20diagn%C3%B3stico." class="nav-cta" target="_blank">Agendar diagnóstico</a>
   <button class="hamburger" id="hamburger" aria-label="Abrir menú">
     <span></span><span></span><span></span>
@@ -1791,10 +1786,12 @@ footer {
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
   </button>
   <ul class="mobile-menu-links">
-    <li><a href="#servicios" class="mobile-link">Servicios <span class="arr">→</span></a></li>
+    <li><a href="#" onclick="openServicios();return false;" class="mobile-link">Servicios <span class="arr">→</span></a></li>
     <li><a href="#proceso" class="mobile-link">Proceso <span class="arr">→</span></a></li>
     <li><a href="#testimonios" class="mobile-link">Clientes <span class="arr">→</span></a></li>
     <li><a href="#ubicacion" class="mobile-link">Ubicación <span class="arr">→</span></a></li>
+    <li><a href="#trabajos" class="mobile-link">Trabajos <span class="arr">→</span></a></li>
+    <li><a href="#faq" class="mobile-link">Preguntas frecuentes <span class="arr">→</span></a></li>
   </ul>
   <div class="mobile-menu-cta">
     <a href="https://wa.me/524443860800?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20un%20diagn%C3%B3stico." target="_blank">Agendar diagnóstico</a>
@@ -2857,9 +2854,8 @@ footer {
 </div>
 
 <script>
-// ── CONFIGURACIÓN: reemplaza con tu API key de Groq ──
-// Obtén tu key gratis en: https://console.groq.com
-window.HP_API_KEY = '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';
+// API key gestionada de forma segura en el servidor (Vercel)
+window.HP_API_KEY = 'proxy';
 </script>
 
 <!-- Panel de configuración API key Groq -->
@@ -3064,11 +3060,10 @@ window.HP_API_KEY = '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';
     sendBtn.disabled = true;
 
     try {
-      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + window.HP_API_KEY
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           model: 'openai/gpt-oss-120b',
@@ -3156,12 +3151,6 @@ window.HP_API_KEY = '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';
 
   // ── Events ──
   launcher.addEventListener('click', () => {
-    // Si no hay API key, mostrar panel de configuración
-    if (!window.HP_API_KEY) {
-      const panel = document.getElementById('hp-apiconfig');
-      if (panel) panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-      return;
-    }
     isOpen = !isOpen;
     launcher.classList.toggle('open', isOpen);
     chat.classList.toggle('open', isOpen);
@@ -3495,5 +3484,654 @@ if (heroVideo) {
 })();
 </script>
 
+
+<!-- ══════════════════════════════════
+     MODAL DE SERVICIOS
+══════════════════════════════════ -->
+<style>
+#servicios-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  background: #050505;
+  overflow-y: auto;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+#servicios-modal.open {
+  display: block;
+}
+#servicios-modal.visible {
+  opacity: 1;
+}
+.sm-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 18px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(5,5,5,0.95);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border-bottom: 1px solid rgba(192,17,26,0.2);
+}
+.sm-nav-logo img { height: 60px; width: auto; object-fit: contain; }
+.sm-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--titanium);
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 10px 20px;
+  cursor: pointer;
+  background: none;
+  transition: color 0.3s, border-color 0.3s;
+}
+.sm-back:hover { color: var(--white); border-color: rgba(192,17,26,0.5); }
+.sm-back svg { width: 14px; height: 14px; }
+
+/* Hero del modal */
+.sm-hero {
+  padding: 80px 0 60px;
+  background: var(--black-2);
+  border-bottom: 1px solid var(--gray-mid);
+  position: relative;
+  overflow: hidden;
+}
+.sm-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(192,17,26,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(192,17,26,0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.sm-hero::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 50%; height: 100%;
+  background: radial-gradient(ellipse at top right, rgba(192,17,26,0.1) 0%, transparent 70%);
+}
+.sm-container { max-width: 1200px; margin: 0 auto; padding: 0 60px; position: relative; z-index: 1; }
+.sm-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 18px;
+}
+.sm-tag::before { content: ''; width: 20px; height: 1px; background: var(--red); display: block; }
+.sm-title {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 8vw, 100px);
+  letter-spacing: 3px;
+  line-height: 0.9;
+  color: var(--white);
+  margin-bottom: 20px;
+}
+.sm-title span { color: var(--red); }
+.sm-sub {
+  font-size: 16px;
+  color: rgba(192,192,192,0.85);
+  max-width: 580px;
+  line-height: 1.8;
+}
+
+/* Secciones del modal */
+.sm-section { padding: 80px 0; border-top: 1px solid var(--gray-mid); }
+.sm-section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 14px;
+}
+.sm-section-label::before { content: ''; width: 18px; height: 1px; background: var(--red); display: block; }
+.sm-section-title {
+  font-family: var(--font-display);
+  font-size: clamp(34px, 4vw, 54px);
+  letter-spacing: 2px;
+  line-height: 0.95;
+  color: var(--white);
+  margin-bottom: 44px;
+}
+.sm-section-title span { color: var(--red); }
+
+/* Grid de servicios */
+.sm-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--gray-mid);
+  border: 1px solid var(--gray-mid);
+}
+.sm-card {
+  background: var(--black-3);
+  padding: 40px 32px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s, transform 0.4s;
+}
+.sm-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at bottom left, rgba(192,17,26,0.09), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.sm-card:hover::before { opacity: 1; }
+.sm-card:hover { background: #0d0d0d; transform: translateY(-2px); }
+.sm-card.featured { background: linear-gradient(135deg, #0d0d0d 0%, #111 100%); border: 1px solid rgba(192,17,26,0.2); }
+.sm-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--red);
+  padding: 4px 10px;
+  margin-bottom: 14px;
+}
+.sm-num { font-family: var(--font-mono); font-size: 10px; letter-spacing: 3px; color: var(--red); margin-bottom: 16px; }
+.sm-icon { width: 48px; height: 48px; margin-bottom: 16px; color: var(--titanium-light); transition: color 0.3s; }
+.sm-card:hover .sm-icon { color: var(--red); }
+.sm-icon svg { width: 100%; height: 100%; }
+.sm-card-title { font-family: var(--font-display); font-size: 20px; letter-spacing: 1px; color: var(--white); margin-bottom: 10px; line-height: 1.1; }
+.sm-card-text { font-size: 13px; color: var(--titanium); line-height: 1.7; margin-bottom: 16px; }
+.sm-card-list { list-style: none; margin-bottom: 20px; }
+.sm-card-list li {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.8px;
+  color: var(--titanium-light);
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.sm-card-list li::before { content: '›'; color: var(--red); font-size: 13px; }
+.sm-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--red);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(192,17,26,0.3);
+  padding-bottom: 3px;
+  transition: gap 0.3s, border-color 0.3s;
+}
+.sm-link:hover { border-color: var(--red); gap: 14px; }
+
+/* Diagnóstico */
+.sm-diag { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+.sm-diag-text p { font-size: 14px; color: rgba(192,192,192,0.85); line-height: 1.8; margin-bottom: 12px; }
+.sm-diag-text p strong { color: var(--white); }
+.sm-tools { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--gray-mid); border: 1px solid var(--gray-mid); }
+.sm-tool {
+  background: var(--black-3);
+  padding: 20px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transition: background 0.3s;
+}
+.sm-tool:hover { background: var(--gray-dark); }
+.sm-tool-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); margin-top: 5px; flex-shrink: 0; box-shadow: 0 0 6px rgba(192,17,26,0.5); }
+.sm-tool-name { font-family: var(--font-display); font-size: 15px; letter-spacing: 1px; color: var(--white); margin-bottom: 3px; }
+.sm-tool-desc { font-size: 11px; color: var(--titanium); line-height: 1.5; }
+
+/* Accesorios y rines */
+.sm-accent-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--gray-mid); border: 1px solid var(--gray-mid); }
+.sm-accent-card {
+  background: var(--black-3);
+  padding: 48px 40px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s;
+}
+.sm-accent-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--red);
+  transform: scaleX(0);
+  transition: transform 0.4s;
+}
+.sm-accent-card:hover::after { transform: scaleX(1); }
+.sm-accent-card:hover { background: #0d0d0d; }
+.sm-accent-num { font-family: var(--font-display); font-size: 80px; line-height: 1; color: rgba(255,255,255,0.03); position: absolute; top: 14px; right: 20px; user-select: none; }
+.sm-accent-icon { width: 56px; height: 56px; color: var(--red); margin-bottom: 20px; }
+.sm-accent-icon svg { width: 100%; height: 100%; }
+.sm-accent-title { font-family: var(--font-display); font-size: 32px; letter-spacing: 2px; color: var(--white); margin-bottom: 12px; }
+.sm-accent-text { font-size: 14px; color: var(--titanium-light); line-height: 1.75; margin-bottom: 22px; max-width: 360px; }
+.sm-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 24px; }
+.sm-tag-item {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--titanium-light);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 4px 10px;
+}
+
+/* CTA strip */
+.sm-cta {
+  background: var(--black-2);
+  border-top: 1px solid rgba(192,17,26,0.3);
+  padding: 60px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.sm-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(192,17,26,0.08) 0%, transparent 70%);
+}
+.sm-cta-inner { position: relative; z-index: 1; }
+.sm-cta h2 { font-family: var(--font-display); font-size: clamp(36px, 5vw, 66px); letter-spacing: 3px; color: var(--white); margin-bottom: 14px; line-height: 0.95; }
+.sm-cta h2 span { color: var(--red); }
+.sm-cta p { font-size: 15px; color: var(--titanium-light); margin-bottom: 32px; }
+.sm-btn-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: linear-gradient(135deg, #d4141e 0%, #c0111a 45%, #8a0d13 100%);
+  color: #fff; text-decoration: none;
+  font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+  padding: 17px 44px;
+  border: 1px solid rgba(255,80,80,0.2);
+  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+  box-shadow: 0 4px 24px rgba(192,17,26,0.4);
+  margin: 0 8px 10px;
+}
+.sm-btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 36px rgba(192,17,26,0.6); filter: brightness(1.1); }
+.sm-btn-secondary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: transparent; color: var(--white); text-decoration: none;
+  font-family: var(--font-ui); font-size: 13px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+  padding: 17px 40px;
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: border-color 0.3s, background 0.3s, transform 0.3s;
+  margin: 0 8px 10px;
+}
+.sm-btn-secondary:hover { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); transform: translateY(-3px); }
+
+/* Footer mini */
+.sm-footer { background: var(--black); border-top: 1px solid var(--gray-mid); padding: 28px 0; }
+.sm-footer-inner { display: flex; align-items: center; justify-content: space-between; }
+.sm-footer-copy { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; color: var(--titanium); text-transform: uppercase; }
+.sm-footer-links { display: flex; gap: 20px; list-style: none; }
+.sm-footer-links a { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--titanium); text-decoration: none; transition: color 0.3s; }
+.sm-footer-links a:hover { color: var(--white); }
+
+/* Responsive modal */
+@media (max-width: 900px) {
+  .sm-nav { padding: 14px 22px; }
+  .sm-container { padding: 0 22px; }
+  .sm-hero { padding: 60px 0 44px; }
+  .sm-grid { grid-template-columns: 1fr 1fr; }
+  .sm-diag { grid-template-columns: 1fr; gap: 36px; }
+  .sm-accent-grid { grid-template-columns: 1fr; }
+  .sm-section { padding: 56px 0; }
+}
+@media (max-width: 600px) {
+  .sm-grid { grid-template-columns: 1fr; }
+  .sm-tools { grid-template-columns: 1fr; }
+  .sm-card { padding: 28px 20px; }
+  .sm-accent-card { padding: 32px 24px; }
+  .sm-footer-links { display: none; }
+  .sm-title { font-size: 48px; }
+  .sm-btn-primary, .sm-btn-secondary { width: 90%; justify-content: center; }
+}
+</style>
+
+<div id="servicios-modal">
+
+  <!-- NAV STICKY -->
+  <nav class="sm-nav">
+    <a href="#" class="sm-nav-logo" onclick="closeServicios();return false;">
+      <img src="https://res.cloudinary.com/dvvuwigmy/image/upload/v1779737050/IMG_6872_cscbj3_1_vkp7px.png" alt="High Performance SLP">
+    </a>
+    <button class="sm-back" onclick="closeServicios()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="15,18 9,12 15,6"/></svg>
+      Volver al sitio
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <div class="sm-hero">
+    <div class="sm-container">
+      <div class="sm-tag">High Performance SLP · San Luis Potosí</div>
+      <h1 class="sm-title">NUESTROS<br><span>SERVICIOS</span></h1>
+      <p class="sm-sub">Ingeniería automotriz de alto rendimiento. Desde diagnóstico computarizado hasta potenciación, accesorios y rines — todo bajo el mismo techo técnico.</p>
+    </div>
+  </div>
+
+  <!-- SERVICIOS MECÁNICOS -->
+  <div class="sm-section" style="background: var(--black-2); position: relative; overflow: hidden;">
+    <!-- Imágenes de fondo superpuestas -->
+    <div style="
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      display: flex;
+      flex-direction: column;
+      pointer-events: none;
+    ">
+      <div style="
+        flex: 1;
+        background: url('https://res.cloudinary.com/dvvuwigmy/image/upload/v1779750036/IMG_6889_qoebcq.jpg') center center / cover no-repeat;
+        opacity: 0.07;
+      "></div>
+      <div style="
+        flex: 1;
+        background: url('https://res.cloudinary.com/dvvuwigmy/image/upload/v1779750036/IMG_6890_zocilz.jpg') center center / cover no-repeat;
+        opacity: 0.07;
+      "></div>
+    </div>
+    <div class="sm-container" style="position: relative; z-index: 1;">
+      <div class="sm-section-label">Mecánica especializada</div>
+      <h2 class="sm-section-title">Servicios <span>técnicos</span></h2>
+      <div class="sm-grid">
+
+        <div class="sm-card">
+          <div class="sm-num">01 / AFINACIONES</div>
+          <div class="sm-icon"><svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="28" cy="28" r="18"/><circle cx="28" cy="28" r="6"/><path d="M28 10v6M28 40v6M10 28h6M40 28h6M15.5 15.5l4.2 4.2M36.3 36.3l4.2 4.2M40.5 15.5l-4.2 4.2M19.7 36.3l-4.2 4.2"/></svg></div>
+          <div class="sm-card-title">Afinaciones</div>
+          <div class="sm-card-text">Ajuste integral del motor para restaurar y superar su desempeño original. Bujías, filtros, inyectores y calibración de sistemas electrónicos.</div>
+          <ul class="sm-card-list">
+            <li>Cambio de bujías y cables de alta</li>
+            <li>Limpieza y calibración de inyectores</li>
+            <li>Cambio de filtros (aire, combustible, cabina)</li>
+            <li>Calibración de sistemas electrónicos</li>
+            <li>Revisión de sensores MAF, IAT, O2</li>
+          </ul>
+          <a href="https://wa.me/524443860800?text=Quiero%20una%20afinaci%C3%B3n." class="sm-link" target="_blank">Solicitar →</a>
+        </div>
+
+        <div class="sm-card">
+          <div class="sm-num">02 / ACEITE Y LUBRICACIÓN</div>
+          <div class="sm-icon"><svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M28 8c0 0-14 14-14 24a14 14 0 0028 0C42 22 28 8 28 8z"/><path d="M28 44v-8M21 38l7-8 7 8"/></svg></div>
+          <div class="sm-card-title">Cambios de aceite</div>
+          <div class="sm-card-text">Lubricantes de alta especificación según el motor, kilometraje y exigencia del vehículo. Incluye revisión de niveles y filtro de aceite.</div>
+          <ul class="sm-card-list">
+            <li>Aceites sintéticos, semi-sintéticos y minerales</li>
+            <li>Cambio de filtro de aceite</li>
+            <li>Revisión y ajuste de todos los niveles</li>
+            <li>Inspección de tapas y empaques</li>
+          </ul>
+          <a href="https://wa.me/524443860800?text=Necesito%20un%20cambio%20de%20aceite." class="sm-link" target="_blank">Solicitar →</a>
+        </div>
+
+        <div class="sm-card">
+          <div class="sm-num">03 / SISTEMA DE FRENOS</div>
+          <div class="sm-icon"><svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="28" cy="28" r="20"/><circle cx="28" cy="28" r="8"/><path d="M28 8v6M28 42v6M8 28h6M42 28h6"/><circle cx="28" cy="28" r="3" fill="currentColor"/></svg></div>
+          <div class="sm-card-title">Sistema de frenos</div>
+          <div class="sm-card-text">Diagnóstico, mantenimiento y reparación completa del sistema de frenado — pastillas, discos, calibradores y líquido de frenos.</div>
+          <ul class="sm-card-list">
+            <li>Cambio de pastillas y zapatas</li>
+            <li>Rectificado o cambio de discos</li>
+            <li>Reparación o cambio de calibradores</li>
+            <li>Cambio y purga de líquido de frenos</li>
+          </ul>
+          <a href="https://wa.me/524443860800?text=Necesito%20revisi%C3%B3n%20de%20frenos." class="sm-link" target="_blank">Solicitar →</a>
+        </div>
+
+        <div class="sm-card">
+          <div class="sm-num">04 / TRANSMISIÓN</div>
+          <div class="sm-icon"><svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="14" cy="28" r="7"/><circle cx="42" cy="28" r="7"/><path d="M21 28h14M14 21v-8M42 21v-8M14 35v8M42 35v8"/></svg></div>
+          <div class="sm-card-title">Transmisión</div>
+          <div class="sm-card-text">Revisión, calibración y reparación de transmisiones automáticas y mecánicas. Cambios bruscos, patinamiento, ruidos y fallas electrónicas.</div>
+          <ul class="sm-card-list">
+            <li>Diagnóstico electrónico de transmisión</li>
+            <li>Cambio de aceite de transmisión</li>
+            <li>Reparación de solenoides y válvulas</li>
+            <li>Corrección de códigos de falla TCM</li>
+          </ul>
+          <a href="https://wa.me/524443860800?text=Necesito%20revisi%C3%B3n%20de%20transmisi%C3%B3n." class="sm-link" target="_blank">Solicitar →</a>
+        </div>
+
+        <div class="sm-card">
+          <div class="sm-num">05 / SUSPENSIÓN Y DIRECCIÓN</div>
+          <div class="sm-icon"><svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 44c0-8 4-12 8-16s8-8 8-16M44 44c0-8-4-12-8-16s-8-8-8-16M8 44h40"/><circle cx="16" cy="44" r="4"/><circle cx="40" cy="44" r="4"/></svg></div>
+          <div class="sm-card-title">Suspensión y dirección</div>
+          <div class="sm-card-text">Diagnóstico y reparación completa de amortiguadores, rótulas, brazos, bujes y caja de dirección. Restauramos estabilidad y confort.</div>
+          <ul class="sm-card-list">
+            <li>Cambio de amortiguadores y resortes</li>
+            <li>Reparación de rótulas y terminales</li>
+            <li>Alineación de dirección y geometría</li>
+            <li>Balanceo de ruedas</li>
+          </ul>
+          <a href="https://wa.me/524443860800?text=Necesito%20revisi%C3%B3n%20de%20suspensi%C3%B3n." class="sm-link" target="_blank">Solicitar →</a>
+        </div>
+
+        <div class="sm-card">
+          <div class="sm-num">06 / MANTENIMIENTO</div>
+          <div class="sm-icon"><svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 12a16 16 0 000 32M36 12a16 16 0 010 32M28 10v4M28 42v4"/><rect x="22" y="24" width="12" height="8" rx="1"/></svg></div>
+          <div class="sm-card-title">Mantenimiento preventivo</div>
+          <div class="sm-card-text">Programas preventivos por historial y exigencia del vehículo. Preservamos el rendimiento y extendemos la vida útil de cada componente.</div>
+          <ul class="sm-card-list">
+            <li>Revisión de 30 / 60 / 90 puntos</li>
+            <li>Cambio de banda de distribución</li>
+            <li>Revisión de sistema de enfriamiento</li>
+            <li>Historial técnico documentado</li>
+          </ul>
+          <a href="https://wa.me/524443860800?text=Necesito%20mantenimiento%20preventivo." class="sm-link" target="_blank">Solicitar →</a>
+        </div>
+
+        <div class="sm-card featured">
+          <div class="sm-badge">★ Especialidad</div>
+          <div class="sm-num">07 / POTENCIACIÓN Y RENDIMIENTO</div>
+          <div class="sm-icon"><svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 36l10-16 8 10 8-18 10 12M44 24l4-4-4-4M8 44h40"/></svg></div>
+          <div class="sm-card-title">Potenciaciones</div>
+          <div class="sm-card-text">Incremento real de potencia y torque mediante reprogramación de ECU, mejoras en admisión, escape y combustible. Más rendimiento, mismo motor.</div>
+          <ul class="sm-card-list">
+            <li>Reprogramación de ECU (tune)</li>
+            <li>Mejoras en sistema de admisión de aire</li>
+            <li>Optimización de sistema de escape</li>
+            <li>Intercoolers y sistemas de boost</li>
+          </ul>
+          <a href="https://wa.me/524443860800?text=Quiero%20potenciar%20mi%20veh%C3%ADculo." class="sm-link" target="_blank">Consultar →</a>
+        </div>
+
+        <div class="sm-card featured">
+          <div class="sm-badge">★ Especialidad</div>
+          <div class="sm-num">08 / CORRECCIÓN DE FALLAS</div>
+          <div class="sm-icon"><svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M40 8l-4 4 8 8 4-4-8-8zM36 12L12 36l-4 8 8-4 24-24-4-4z"/><circle cx="20" cy="40" r="2"/></svg></div>
+          <div class="sm-card-title">Fallas complejas</div>
+          <div class="sm-card-text">Resolvemos lo que otros talleres no pudieron. Fallas intermitentes, sin código aparente, síntomas difusos — nuestra metodología los encuentra y corrige.</div>
+          <ul class="sm-card-list">
+            <li>Análisis de causa raíz documentado</li>
+            <li>Diagnóstico de fallas intermitentes</li>
+            <li>Lectura de datos PID en tiempo real</li>
+            <li>Corrección de fallas eléctricas avanzadas</li>
+          </ul>
+          <a href="https://wa.me/524443860800?text=Tengo%20una%20falla%20compleja." class="sm-link" target="_blank">Consultar →</a>
+        </div>
+
+        <div class="sm-card">
+          <div class="sm-num">09 / MECÁNICA MAYOR</div>
+          <div class="sm-icon"><svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="10" y="18" width="36" height="22" rx="2"/><path d="M18 18v-6M28 18v-6M38 18v-6"/><circle cx="18" cy="30" r="4"/><circle cx="38" cy="30" r="4"/><path d="M22 30h12M4 28h6M46 28h6"/></svg></div>
+          <div class="sm-card-title">Mecánica mayor</div>
+          <div class="sm-card-text">Intervenciones profundas al motor y tren motriz. Empaque de culata, rectificación, distribución completa y componentes internos.</div>
+          <ul class="sm-card-list">
+            <li>Cambio de empaque de culata</li>
+            <li>Rectificación y reparación de cabeza</li>
+            <li>Cambio de distribución completa</li>
+            <li>Diagnóstico de compresión por cilindro</li>
+          </ul>
+          <a href="https://wa.me/524443860800?text=Necesito%20mec%C3%A1nica%20mayor." class="sm-link" target="_blank">Solicitar →</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- DIAGNÓSTICO COMPUTARIZADO -->
+  <div class="sm-section" style="background: var(--black);">
+    <div class="sm-container">
+      <div class="sm-diag">
+        <div>
+          <div class="sm-section-label">Tecnología de diagnóstico</div>
+          <h2 class="sm-section-title">Diagnóstico <span>computarizado</span></h2>
+          <div class="sm-diag-text">
+            <p>Contamos con las <strong>herramientas de diagnóstico más completas del mercado</strong>. No dependemos de un solo scanner — usamos múltiples plataformas profesionales para cobertura total en cualquier vehículo, cualquier marca, cualquier sistema.</p>
+            <p>Cada diagnóstico incluye escaneo de todos los módulos, lectura de datos en tiempo real, análisis PID y reporte técnico con códigos activos e históricos.</p>
+            <p>Europeos, americanos, japoneses, coreanos — con <strong>protocolos OBD2, CAN, propietarios</strong> y sistemas avanzados de cada fabricante.</p>
+            <br>
+            <a href="https://wa.me/524443860800?text=Necesito%20un%20diagn%C3%B3stico%20computarizado." class="sm-link" target="_blank" style="font-size:13px;">Agendar diagnóstico →</a>
+          </div>
+        </div>
+        <div class="sm-tools">
+          <div class="sm-tool"><div class="sm-tool-dot"></div><div><div class="sm-tool-name">AUTEL MaxiSys</div><div class="sm-tool-desc">Cobertura de más de 80 marcas. Funciones OEM-level de calibración y programación.</div></div></div>
+          <div class="sm-tool"><div class="sm-tool-dot"></div><div><div class="sm-tool-name">Launch X431</div><div class="sm-tool-desc">Diagnóstico inteligente con acceso remoto, actualizaciones en línea y funciones bi-direccionales.</div></div></div>
+          <div class="sm-tool"><div class="sm-tool-dot"></div><div><div class="sm-tool-name">FOXWELL Pro</div><div class="sm-tool-desc">Especializado en reset de servicios, calibración de sensores y sistemas ADAS.</div></div></div>
+          <div class="sm-tool"><div class="sm-tool-dot"></div><div><div class="sm-tool-name">IDS / GDS / ISTA</div><div class="sm-tool-desc">Software propietario Ford, GM y BMW. Diagnóstico al nivel de concesionario oficial.</div></div></div>
+          <div class="sm-tool"><div class="sm-tool-dot"></div><div><div class="sm-tool-name">VCDS (VAG-COM)</div><div class="sm-tool-desc">Especializado para grupo VAG: Volkswagen, Audi, SEAT, Skoda, Porsche.</div></div></div>
+          <div class="sm-tool"><div class="sm-tool-dot"></div><div><div class="sm-tool-name">Osciloscopio automotriz</div><div class="sm-tool-desc">Análisis de señales eléctricas en tiempo real. Clave para fallas intermitentes y sensores.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCESORIOS Y RINES -->
+  <div class="sm-section" style="background: var(--black-2);">
+    <div class="sm-container">
+      <div class="sm-section-label">Personalización</div>
+      <h2 class="sm-section-title">Accesorios <span>y Rines</span></h2>
+      <div class="sm-accent-grid">
+
+        <div class="sm-accent-card">
+          <div class="sm-accent-num">A</div>
+          <div class="sm-accent-icon"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="8" y="20" width="48" height="32" rx="3"/><path d="M20 20v-8a4 4 0 018 0v8M36 20v-8a4 4 0 018 0v8M8 32h48"/><circle cx="24" cy="40" r="4"/><path d="M32 40h16"/></svg></div>
+          <div class="sm-accent-title">Accesorios</div>
+          <div class="sm-accent-text">Selección de accesorios para mejorar la funcionalidad, protección y estética de tu vehículo. Instalación profesional incluida.</div>
+          <div class="sm-tags">
+            <span class="sm-tag-item">Tapetes</span>
+            <span class="sm-tag-item">Cubiertas de asiento</span>
+            <span class="sm-tag-item">Estribos</span>
+            <span class="sm-tag-item">Defensas</span>
+            <span class="sm-tag-item">Luces LED</span>
+            <span class="sm-tag-item">Cámaras de reversa</span>
+            <span class="sm-tag-item">Sensores de parqueo</span>
+            <span class="sm-tag-item">Sonido y audio</span>
+            <span class="sm-tag-item">Barras antivuelco</span>
+            <span class="sm-tag-item">Cubiertas de pick-up</span>
+            <span class="sm-tag-item">Volantes</span>
+            <span class="sm-tag-item">Tableros digitales</span>
+          </div>
+          <a href="https://wa.me/524443860800?text=Me%20interesan%20los%20accesorios." class="sm-link" target="_blank">Consultar catálogo →</a>
+        </div>
+
+        <div class="sm-accent-card">
+          <div class="sm-accent-num">R</div>
+          <div class="sm-accent-icon"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="32" cy="32" r="26"/><circle cx="32" cy="32" r="10"/><path d="M32 6v16M32 42v16M6 32h16M42 32h16M13.4 13.4l11.3 11.3M39.3 39.3l11.3 11.3M50.6 13.4L39.3 24.7M24.7 39.3L13.4 50.6"/><circle cx="32" cy="32" r="4" fill="currentColor"/></svg></div>
+          <div class="sm-accent-title">Rines</div>
+          <div class="sm-accent-text">Rines de diferentes estilos, materiales y medidas para todos los vehículos. Asesoría incluida — te ayudamos a elegir la opción correcta para tu auto.</div>
+          <div class="sm-tags">
+            <span class="sm-tag-item">Rines de aluminio</span>
+            <span class="sm-tag-item">Rines forjados</span>
+            <span class="sm-tag-item">Rines deportivos</span>
+            <span class="sm-tag-item">Rines de acero</span>
+            <span class="sm-tag-item">14" hasta 22"</span>
+            <span class="sm-tag-item">Instalación y balanceo</span>
+            <span class="sm-tag-item">Espaciadores</span>
+            <span class="sm-tag-item">Tuercas y birlos</span>
+          </div>
+          <a href="https://wa.me/524443860800?text=Quiero%20ver%20opciones%20de%20rines." class="sm-link" target="_blank">Ver disponibilidad →</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="sm-cta">
+    <div class="sm-container sm-cta-inner">
+      <h2>¿Listo para tu<br><span>próximo servicio</span>?</h2>
+      <p>Escríbenos por WhatsApp y te agendamos en el primer espacio disponible.</p>
+      <a href="https://wa.me/524443860800?text=Hola%2C%20quiero%20agendar%20un%20servicio." class="sm-btn-primary" target="_blank">
+        <svg style="width:17px;height:17px;flex-shrink:0;" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Agendar por WhatsApp
+      </a>
+      <a href="https://www.instagram.com/highperformance_slp/" class="sm-btn-secondary" target="_blank">Ver trabajos en Instagram</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="sm-footer">
+    <div class="sm-container">
+      <div class="sm-footer-inner">
+        <div class="sm-footer-copy">© 2025 High Performance SLP · San Luis Potosí</div>
+        <ul class="sm-footer-links">
+          <li><a href="https://wa.me/524443860800" target="_blank">WhatsApp</a></li>
+          <li><a href="https://www.instagram.com/highperformance_slp/" target="_blank">Instagram</a></li>
+          <li><a href="https://wa.me/524443860800?text=Hola%2C%20quiero%20agendar." target="_blank">Agendar cita</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function openServicios() {
+  const modal = document.getElementById('servicios-modal');
+  modal.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      modal.classList.add('open', 'visible');
+      modal.scrollTop = 0;
+    });
+  });
+  // Cerrar con Escape
+  document.addEventListener('keydown', escCloseServicios);
+}
+function closeServicios() {
+  const modal = document.getElementById('servicios-modal');
+  modal.classList.remove('visible');
+  setTimeout(() => {
+    modal.classList.remove('open');
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }, 350);
+  document.removeEventListener('keydown', escCloseServicios);
+}
+function escCloseServicios(e) {
+  if (e.key === 'Escape') closeServicios();
+}
+</script>
 </body>
 </html>
