@@ -243,7 +243,6 @@ nav.scrolled {
 .mobile-menu.open .mobile-menu-links li:nth-child(3) { opacity:1; transform:translateX(0); transition-delay:0.14s; }
 .mobile-menu.open .mobile-menu-links li:nth-child(4) { opacity:1; transform:translateX(0); transition-delay:0.18s; }
 .mobile-menu.open .mobile-menu-links li:nth-child(5) { opacity:1; transform:translateX(0); transition-delay:0.22s; }
-.mobile-menu.open .mobile-menu-links li:nth-child(6) { opacity:1; transform:translateX(0); transition-delay:0.26s; }
 .mobile-menu-links a {
   display: flex;
   align-items: center;
@@ -605,11 +604,11 @@ section { position: relative; }
   height: 100%;
   object-fit: cover;
   display: block;
-  filter: brightness(0.55);
+  filter: brightness(0.7);
   transition: filter 0.4s ease, transform 0.6s ease;
 }
 .authority-video-thumb:hover video.thumb-video {
-  filter: brightness(0.7);
+  filter: brightness(0.85);
   transform: scale(1.03);
 }
 .authority-video-play {
@@ -1243,7 +1242,23 @@ section { position: relative; }
 #testimonios {
   padding: 120px 0;
   background: var(--black-2);
+  background-image: url('https://res.cloudinary.com/dvvuwigmy/image/upload/v1779758546/IMG_6899_dvf7ok.jpg');
+  background-size: cover;
+  background-position: center;
   border-top: 1px solid var(--gray-mid);
+  position: relative;
+}
+#testimonios::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(5,5,5,0.88);
+  z-index: 0;
+  pointer-events: none;
+}
+#testimonios > * {
+  position: relative;
+  z-index: 1;
 }
 .testimonios-grid {
   display: grid;
@@ -1479,16 +1494,231 @@ section { position: relative; }
 }
 
 
-/* ── FAQ MODAL ── */
+/* ── PROCESO MODAL ── */
+#proceso-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  background: #050505;
+  background-image: url('https://res.cloudinary.com/dvvuwigmy/image/upload/v1779750036/IMG_6892_gx94lo.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  overflow-y: auto;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+#proceso-modal::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(5,5,5,0.91);
+  z-index: 0;
+  pointer-events: none;
+}
+#proceso-modal.open { display: block; }
+#proceso-modal.visible { opacity: 1; }
+.proceso-modal-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 18px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(5,5,5,0.95);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border-bottom: 1px solid rgba(192,17,26,0.2);
+}
+.proceso-modal-back {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  color: var(--titanium-light);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.proceso-modal-back:hover { color: var(--white); }
+.proceso-modal-back svg { width: 18px; height: 18px; }
+.proceso-modal-cta {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--red);
+  text-decoration: none;
+  border: 1px solid rgba(192,17,26,0.4);
+  padding: 8px 20px;
+  transition: background 0.3s, color 0.3s;
+}
+.proceso-modal-cta:hover { background: var(--red); color: #fff; }
+.proceso-modal-body {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 80px 40px 120px;
+  position: relative;
+  z-index: 1;
+}
+.proceso-modal-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 16px;
+}
+.proceso-modal-title {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 7vw, 72px);
+  letter-spacing: 2px;
+  line-height: 1;
+  color: var(--white);
+  margin-bottom: 24px;
+}
+.proceso-modal-title span { color: var(--red); }
+.proceso-modal-intro {
+  font-size: 16px;
+  color: rgba(192,192,192,0.85);
+  line-height: 1.8;
+  max-width: 640px;
+  margin-bottom: 64px;
+  border-left: 2px solid var(--red);
+  padding-left: 20px;
+}
+.proceso-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--gray-mid);
+}
+.proceso-modal-step {
+  display: flex;
+  gap: 0;
+  background: rgba(10,10,10,0.8);
+  border-bottom: 1px solid var(--gray-mid);
+  transition: background 0.3s;
+}
+.proceso-modal-step:last-child { border-bottom: none; }
+.proceso-modal-step:hover { background: rgba(192,17,26,0.04); }
+.proceso-modal-num {
+  font-family: var(--font-display);
+  font-size: 32px;
+  color: var(--red);
+  letter-spacing: 1px;
+  padding: 32px 32px;
+  min-width: 100px;
+  display: flex;
+  align-items: flex-start;
+  border-right: 1px solid var(--gray-mid);
+  flex-shrink: 0;
+}
+.proceso-modal-step-content {
+  padding: 32px 36px;
+  flex: 1;
+}
+.proceso-modal-step-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 1px;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+.proceso-modal-step-text {
+  font-size: 14px;
+  color: var(--titanium-light);
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+.proceso-modal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.proceso-modal-tags span {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--red);
+  border: 1px solid rgba(192,17,26,0.3);
+  padding: 4px 10px;
+  background: rgba(192,17,26,0.06);
+}
+.proceso-modal-cta-block {
+  margin-top: 60px;
+  padding: 40px;
+  border: 1px solid rgba(192,17,26,0.2);
+  background: rgba(10,10,10,0.8);
+  text-align: center;
+}
+.proceso-modal-cta-block p {
+  font-size: 16px;
+  color: var(--titanium-light);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+.proceso-modal-wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--red);
+  color: #fff;
+  text-decoration: none;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 16px 36px;
+  border: 1px solid var(--red);
+  transition: background 0.3s, color 0.3s;
+}
+.proceso-modal-wa-btn:hover { background: transparent; color: var(--red); }
+@media (max-width: 768px) {
+  .proceso-modal-nav { padding: 16px 20px; }
+  .proceso-modal-body { padding: 48px 20px 80px; }
+  .proceso-modal-num { min-width: 64px; padding: 24px 16px; font-size: 24px; }
+  .proceso-modal-step-content { padding: 24px 20px; }
+  .proceso-modal-cta-block { padding: 24px 20px; }
+}
+
+
 #faq-modal {
   display: none;
   position: fixed;
   inset: 0;
   z-index: 9500;
   background: #050505;
+  background-image: url('https://res.cloudinary.com/dvvuwigmy/image/upload/v1779749525/IMG_6887_mpgbka.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   overflow-y: auto;
   opacity: 0;
   transition: opacity 0.35s ease;
+}
+#faq-modal::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(5,5,5,0.92);
+  z-index: 0;
+  pointer-events: none;
+}
+#faq-modal .faq-modal-nav,
+#faq-modal .faq-modal-body {
+  position: relative;
+  z-index: 1;
 }
 #faq-modal.open { display: block; }
 #faq-modal.visible { opacity: 1; }
@@ -2023,8 +2253,7 @@ footer {
   </button>
   <ul class="mobile-menu-links">
     <li><a href="#" onclick="openServicios();return false;" class="mobile-link">Servicios <span class="arr">→</span></a></li>
-    <li><a href="#proceso" class="mobile-link">Proceso <span class="arr">→</span></a></li>
-    <li><a href="#testimonios" class="mobile-link">Clientes <span class="arr">→</span></a></li>
+    <li><a href="#" onclick="openProceso();closeMobileMenu();return false;" class="mobile-link">Proceso <span class="arr">→</span></a></li>
     <li><a href="#ubicacion" class="mobile-link">Ubicación <span class="arr">→</span></a></li>
     <li><a href="#trabajos" class="mobile-link">Trabajos <span class="arr">→</span></a></li>
     <li><a href="#" onclick="openFAQ();closeMobileMenu();return false;" class="mobile-link">Preguntas frecuentes <span class="arr">→</span></a></li>
@@ -2112,7 +2341,7 @@ footer {
     <div class="authority-video-block reveal">
       <div class="authority-video-label">// En acción</div>
       <div class="authority-video-thumb" id="authorityVideoThumb" role="button" aria-label="Ver video de trabajos">
-        <video class="thumb-video" src="https://res.cloudinary.com/dvvuwigmy/video/upload/v1779748953/insta_video_98500_ifxk1r.mp4" muted loop playsinline preload="metadata"></video>
+        <video class="thumb-video" src="https://res.cloudinary.com/dvvuwigmy/video/upload/v1779748953/insta_video_98500_ifxk1r.mp4" muted loop playsinline autoplay preload="auto"></video>
         <div class="authority-video-corner"></div>
         <div class="authority-video-corner-bl"></div>
         <div class="authority-video-play">
@@ -2224,7 +2453,7 @@ footer {
       <div class="gallery-item wide" data-category="mecanica" data-type="video" data-video-src="https://res.cloudinary.com/dvvuwigmy/video/upload/v1779748909/insta_video_48691_ikrggy.mp4">
         <video
           src="https://res.cloudinary.com/dvvuwigmy/video/upload/v1779748909/insta_video_48691_ikrggy.mp4"
-          muted loop playsinline preload="metadata"
+          muted loop playsinline autoplay preload="auto"
           style="width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;"
         ></video>
         <div class="gallery-item-play">
@@ -2699,6 +2928,88 @@ footer {
         <div class="faq-answer"><p>Estamos en San Luis Potosí. Puedes ver nuestra ubicación exacta en la sección de Ubicación del sitio o contactarnos por WhatsApp y te enviamos la dirección directamente.</p></div>
       </div>
 
+    </div>
+  </div>
+</div>
+
+<!-- PROCESO MODAL -->
+<div id="proceso-modal">
+  <div class="proceso-modal-nav">
+    <button class="proceso-modal-back" onclick="closeProceso()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Volver
+    </button>
+    <a href="https://wa.me/524443860800?text=Hola%2C%20quiero%20agendar%20un%20servicio." class="proceso-modal-cta" target="_blank">Agendar →</a>
+  </div>
+  <div class="proceso-modal-body">
+    <div class="proceso-modal-label">Así trabajamos</div>
+    <h2 class="proceso-modal-title">Nuestro<br><span>Proceso</span></h2>
+    <p class="proceso-modal-intro">En High Performance SLP, cada vehículo sigue un proceso técnico documentado. No improvisamos — cada intervención es metódica, transparente y enfocada en el resultado real.</p>
+
+    <div class="proceso-steps-list">
+
+      <div class="proceso-modal-step">
+        <div class="proceso-modal-num">01</div>
+        <div class="proceso-modal-step-content">
+          <div class="proceso-modal-step-title">Recepción y escucha técnica</div>
+          <div class="proceso-modal-step-text">Cuando llegás al taller, nuestro equipo realiza una entrevista técnica detallada. Escuchamos los síntomas, historial del vehículo y el objetivo del cliente — sin apuros, sin suposiciones. Esta etapa define la dirección de todo el proceso.</div>
+          <div class="proceso-modal-tags"><span>Historial del vehículo</span><span>Síntomas reportados</span><span>Objetivo del cliente</span></div>
+        </div>
+      </div>
+
+      <div class="proceso-modal-step">
+        <div class="proceso-modal-num">02</div>
+        <div class="proceso-modal-step-content">
+          <div class="proceso-modal-step-title">Diagnóstico computarizado completo</div>
+          <div class="proceso-modal-step-text">Realizamos un escaneo de todos los módulos del vehículo con nuestras herramientas de diagnóstico profesional — Autel MaxiSys, Launch X431, VCDS y más. Lectura de códigos activos e históricos, datos PID en tiempo real y análisis de señales con osciloscopio cuando es necesario.</div>
+          <div class="proceso-modal-tags"><span>Escaneo multimodular</span><span>Datos en tiempo real</span><span>Osciloscopio automotriz</span><span>Protocolos OBD2 / CAN</span></div>
+        </div>
+      </div>
+
+      <div class="proceso-modal-step">
+        <div class="proceso-modal-num">03</div>
+        <div class="proceso-modal-step-content">
+          <div class="proceso-modal-step-title">Análisis y plan de intervención</div>
+          <div class="proceso-modal-step-text">Con los datos del diagnóstico, elaboramos un análisis de causa raíz y un plan de intervención documentado. Te explicamos qué encontramos, qué implica y cuáles son las opciones — con transparencia total sobre costos, piezas y tiempos estimados.</div>
+          <div class="proceso-modal-tags"><span>Causa raíz identificada</span><span>Opciones de solución</span><span>Presupuesto detallado</span></div>
+        </div>
+      </div>
+
+      <div class="proceso-modal-step">
+        <div class="proceso-modal-num">04</div>
+        <div class="proceso-modal-step-content">
+          <div class="proceso-modal-step-title">Intervención técnica especializada</div>
+          <div class="proceso-modal-step-text">Ejecutamos la intervención con herramientas profesionales y refacciones de calidad. Cada paso es documentado. No cortamos caminos — cada procedimiento sigue el estándar técnico que el vehículo requiere, sin atajos que comprometan el resultado.</div>
+          <div class="proceso-modal-tags"><span>Herramientas de precisión</span><span>Refacciones certificadas</span><span>Proceso documentado</span></div>
+        </div>
+      </div>
+
+      <div class="proceso-modal-step">
+        <div class="proceso-modal-num">05</div>
+        <div class="proceso-modal-step-content">
+          <div class="proceso-modal-step-title">Verificación y prueba de ruta</div>
+          <div class="proceso-modal-step-text">Antes de devolver el vehículo, realizamos un re-escaneo completo para verificar que los códigos fueron resueltos y los sistemas responden correctamente. Complementamos con una prueba de ruta para confirmar el resultado en condiciones reales.</div>
+          <div class="proceso-modal-tags"><span>Re-escaneo post-intervención</span><span>Prueba de ruta</span><span>Verificación de sistemas</span></div>
+        </div>
+      </div>
+
+      <div class="proceso-modal-step">
+        <div class="proceso-modal-num">06</div>
+        <div class="proceso-modal-step-content">
+          <div class="proceso-modal-step-title">Entrega con reporte y garantía</div>
+          <div class="proceso-modal-step-text">Entregamos el vehículo con un reporte técnico completo de todo lo realizado — códigos, intervenciones, piezas y resultados. Guardamos historial de cada unidad. La garantía sobre el trabajo queda especificada en el reporte de entrega.</div>
+          <div class="proceso-modal-tags"><span>Reporte técnico escrito</span><span>Historial guardado</span><span>Garantía documentada</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="proceso-modal-cta-block">
+      <p>¿Listo para llevar tu vehículo? Agendá por WhatsApp y te atendemos en el primer espacio disponible.</p>
+      <a href="https://wa.me/524443860800?text=Hola%2C%20quiero%20agendar%20un%20servicio%20en%20High%20Performance%20SLP." target="_blank" class="proceso-modal-wa-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Agendar por WhatsApp
+      </a>
     </div>
   </div>
 </div>
@@ -3588,12 +3899,16 @@ const lightboxMedia = document.getElementById('lightboxMedia');
 const lightboxCaption = document.getElementById('lightboxCaption');
 const lightboxClose = document.getElementById('lightboxClose');
 
-// Video hover play in gallery
+// Video hover play in gallery — for non-autoplay videos only
 document.querySelectorAll('.gallery-item[data-type="video"]').forEach(item => {
   const vid = item.querySelector('video');
   if (!vid) return;
-  item.addEventListener('mouseenter', () => vid.play());
-  item.addEventListener('mouseleave', () => { vid.pause(); vid.currentTime = 0; });
+  // Videos now autoplay by default; hover just ensures they keep playing
+  vid.play().catch(() => {
+    // Fallback: play on hover if autoplay blocked
+    item.addEventListener('mouseenter', () => vid.play());
+    item.addEventListener('mouseleave', () => { vid.pause(); vid.currentTime = 0; });
+  });
 });
 
 document.querySelectorAll('.gallery-item').forEach(item => {
@@ -3727,9 +4042,11 @@ if (heroVideo) {
   const lbClose    = document.getElementById('video-lightbox-close');
   if (!thumb || !lightbox) return;
 
-  // Autoplay thumbnail muted on hover
+  // Autoplay thumbnail muted (always playing as preview)
+  if (thumbVideo) {
+    thumbVideo.play().catch(() => {});
+  }
   thumb.addEventListener('mouseenter', () => { if (thumbVideo) thumbVideo.play(); });
-  thumb.addEventListener('mouseleave', () => { if (thumbVideo) { thumbVideo.pause(); thumbVideo.currentTime = 0; } });
 
   function openLightbox() {
     lightbox.style.display = 'flex';
@@ -4378,6 +4695,32 @@ if (heroVideo) {
 </div>
 
 <script>
+function openProceso() {
+  const modal = document.getElementById('proceso-modal');
+  modal.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      modal.classList.add('open', 'visible');
+      modal.scrollTop = 0;
+    });
+  });
+  document.addEventListener('keydown', escCloseProceso);
+}
+function closeProceso() {
+  const modal = document.getElementById('proceso-modal');
+  modal.classList.remove('visible');
+  setTimeout(() => {
+    modal.classList.remove('open');
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }, 350);
+  document.removeEventListener('keydown', escCloseProceso);
+}
+function escCloseProceso(e) {
+  if (e.key === 'Escape') closeProceso();
+}
+
 function openServicios() {
   const modal = document.getElementById('servicios-modal');
   modal.style.display = 'block';
