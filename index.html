@@ -6,7 +6,13 @@
 <title>High Performance SLP — Ingeniería Automotriz de Alto Rendimiento | San Luis Potosí</title>
 <meta name="description" content="Taller automotriz especializado en San Luis Potosí. Diagnóstico electrónico avanzado, mecánica de precisión y optimización de rendimiento. El referente técnico premium de SLP.">
 <meta name="keywords" content="taller automotriz San Luis Potosí, diagnóstico electrónico SLP, mecánica de precisión, alto rendimiento automotriz, escaneo computarizado SLP">
-<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preload" as="video"
+    href="https://res.cloudinary.com/dvvuwigmy/video/upload/q_auto,w_720,vc_auto/v1779681865/insta_video_36651_x1dbqb.mp4"
+    media="(max-width: 768px)">
+  <link rel="preload" as="video"
+    href="https://res.cloudinary.com/dvvuwigmy/video/upload/q_auto/v1779681865/insta_video_36651_x1dbqb.mp4"
+    media="(min-width: 769px)">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -327,7 +333,7 @@ nav.scrolled {
   object-fit: cover;
   filter: brightness(0.45) saturate(0.75);
 }
-.hero-overlay {
+.hero-overlay { /* upgraded */
   position: absolute;
   inset: 0;
   background:
@@ -552,7 +558,23 @@ section { position: relative; }
 #authority {
   padding: 120px 0;
   background: var(--black-2);
+  background-image: url('https://res.cloudinary.com/dvvuwigmy/image/upload/v1779750038/IMG_6888_rbqahz.jpg');
+  background-size: cover;
+  background-position: center;
   border-top: 1px solid var(--gray-mid);
+  position: relative;
+}
+#authority::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(5,5,5,0.88);
+  z-index: 0;
+  pointer-events: none;
+}
+#authority > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* ── VIDEO SHOWCASE ── */
@@ -771,7 +793,23 @@ section { position: relative; }
 #trabajos {
   padding: 120px 0;
   background: var(--black);
+  background-image: url('https://res.cloudinary.com/dvvuwigmy/image/upload/v1779750036/IMG_6889_qoebcq.jpg');
+  background-size: cover;
+  background-position: center;
   border-top: 1px solid var(--gray-mid);
+  position: relative;
+}
+#trabajos::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(5,5,5,0.85);
+  z-index: 0;
+  pointer-events: none;
+}
+#trabajos > * {
+  position: relative;
+  z-index: 1;
 }
 .trabajos-header {
   display: flex;
@@ -1849,6 +1887,117 @@ footer {
   .footer-grid { grid-template-columns: 1fr; }
   .stat-number { font-size: 38px; }
 }
+
+/* ══ UPGRADES PREMIUM ══ */
+
+/* Hero overlay más cinematográfico */
+.hero-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(5,5,5,0.72) 0%,
+    rgba(5,5,5,0.55) 40%,
+    rgba(5,5,5,0.75) 100%
+  ) !important;
+}
+
+/* Animaciones hero secuenciadas */
+.hero-tag {
+  opacity: 0;
+  animation: fadeUp 0.7s 0.2s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+}
+.hero-title {
+  opacity: 0;
+  animation: fadeUp 0.8s 0.6s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+}
+.hero-title-2 {
+  opacity: 0;
+  animation: fadeUp 0.8s 0.9s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+}
+.hero-sub {
+  opacity: 0;
+  animation: fadeUp 0.8s 1.1s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+}
+.hero-ctas {
+  opacity: 0;
+  animation: fadeUp 0.8s 1.35s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+}
+
+/* Launcher premium — glow respiratorio */
+#hp-launcher {
+  animation: hpLauncherIn 0.6s 1.5s cubic-bezier(0.34,1.56,0.64,1) both, hpBreath 3s 2.5s ease-in-out infinite !important;
+  box-shadow: 0 0 0 1px rgba(192,17,26,0.2), 0 0 28px rgba(192,17,26,0.35), 0 4px 20px rgba(0,0,0,0.8) !important;
+}
+#hp-launcher:hover {
+  animation: hpLauncherIn 0s both !important;
+  transform: translateY(-5px) scale(1.08) rotate(2deg) !important;
+  box-shadow: 0 0 0 2px rgba(192,17,26,0.5), 0 0 48px rgba(192,17,26,0.6), 0 8px 30px rgba(0,0,0,0.8) !important;
+}
+@keyframes hpBreath {
+  0%,100% { box-shadow: 0 0 0 1px rgba(192,17,26,0.2), 0 0 20px rgba(192,17,26,0.25), 0 4px 20px rgba(0,0,0,0.8); }
+  50% { box-shadow: 0 0 0 2px rgba(192,17,26,0.4), 0 0 44px rgba(192,17,26,0.5), 0 4px 20px rgba(0,0,0,0.8); }
+}
+
+/* Stat cards con counter glow */
+.stat-card {
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--red), transparent);
+  transform: scaleX(0);
+  transition: transform 0.6s ease;
+}
+.stat-card.counted::after {
+  transform: scaleX(1);
+}
+.stat-number {
+  transition: color 0.3s, text-shadow 0.3s;
+}
+.stat-card.counted .stat-number {
+  text-shadow: 0 0 30px rgba(192,17,26,0.4);
+}
+
+/* Tech cards hover */
+.tech-card:hover {
+  background: var(--gray-dark) !important;
+  box-shadow: inset 0 0 40px rgba(192,17,26,0.05);
+}
+.tech-card:hover > div:first-child {
+  border-color: rgba(192,17,26,0.7) !important;
+  box-shadow: 0 0 20px rgba(192,17,26,0.3);
+}
+
+/* IA demo grid responsive */
+@media (max-width: 768px) {
+  .ia-demo-grid { grid-template-columns: 1fr !important; }
+  .tech-cards-grid { grid-template-columns: 1fr 1fr !important; }
+}
+@media (max-width: 480px) {
+  .tech-cards-grid { grid-template-columns: 1fr !important; }
+}
+
+/* Proceso dots premium */
+.proceso-dot {
+  transition: background 0.3s, box-shadow 0.3s, color 0.3s;
+}
+.proceso-step:hover .proceso-dot {
+  background: var(--red) !important;
+  color: #fff !important;
+  box-shadow: 0 0 24px rgba(192,17,26,0.5);
+}
+.proceso-step:hover .proceso-title {
+  color: var(--white) !important;
+}
+
+/* Reveal más suave */
+.reveal {
+  transition: opacity 0.8s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94) !important;
+}
+
 </style>
 </head>
 <body>
@@ -1888,8 +2037,19 @@ footer {
 <!-- HERO -->
 <section id="hero">
   <div class="hero-video-wrap">
-    <video autoplay muted loop playsinline poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23050505'/%3E%3C/svg%3E">
-      <source src="https://res.cloudinary.com/dvvuwigmy/video/upload/v1779681865/insta_video_36651_x1dbqb.mp4" type="video/mp4">
+    <video autoplay muted loop playsinline
+      preload="auto"
+      fetchpriority="high"
+      poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%23050505'/%3E%3C/svg%3E"
+      style="will-change:transform;">
+      <!-- Mobile: versión reducida via Cloudinary (720p, compresión alta) -->
+      <source media="(max-width: 768px)"
+        src="https://res.cloudinary.com/dvvuwigmy/video/upload/q_auto,w_720,vc_auto/v1779681865/insta_video_36651_x1dbqb.mp4"
+        type="video/mp4">
+      <!-- Desktop: calidad normal -->
+      <source
+        src="https://res.cloudinary.com/dvvuwigmy/video/upload/q_auto/v1779681865/insta_video_36651_x1dbqb.mp4"
+        type="video/mp4">
     </video>
 
   </div>
@@ -1915,6 +2075,7 @@ footer {
     </div>
   </div>
 </section>
+
 
 <!-- AUTHORITY -->
 <section id="authority">
@@ -2292,53 +2453,6 @@ footer {
   </div>
 </section>
 
-<!-- PROCESO -->
-<section id="proceso">
-  <div class="container">
-    <div class="reveal" style="max-width:600px;">
-      <div class="section-label">Cómo trabajamos</div>
-      <h2 class="section-title">Proceso<br><span>técnico</span></h2>
-    </div>
-    <div class="proceso-timeline reveal">
-      <div class="proceso-step">
-        <div class="proceso-dot">01</div>
-        <div class="proceso-step-content">
-        <div class="proceso-title">Recepción</div>
-        <div class="proceso-text">Recibimos tu vehículo y escuchamos el historial de fallas y síntomas reportados.</div>
-        </div>
-      </div>
-      <div class="proceso-step">
-        <div class="proceso-dot">02</div>
-        <div class="proceso-step-content">
-        <div class="proceso-title">Diagnóstico</div>
-        <div class="proceso-text">Escaneo computarizado completo y análisis técnico profundo de todos los sistemas.</div>
-        </div>
-      </div>
-      <div class="proceso-step">
-        <div class="proceso-dot">03</div>
-        <div class="proceso-step-content">
-        <div class="proceso-title">Evaluación</div>
-        <div class="proceso-text">Te presentamos el diagnóstico detallado, la solución técnica y el costo real sin sorpresas.</div>
-        </div>
-      </div>
-      <div class="proceso-step">
-        <div class="proceso-dot">04</div>
-        <div class="proceso-step-content">
-        <div class="proceso-title">Intervención</div>
-        <div class="proceso-text">Ejecutamos la solución con piezas de calidad y procedimientos técnicos documentados.</div>
-        </div>
-      </div>
-      <div class="proceso-step">
-        <div class="proceso-dot">05</div>
-        <div class="proceso-step-content">
-        <div class="proceso-title">Entrega</div>
-        <div class="proceso-text">Verificación final de resultados y entrega con reporte técnico completo de la intervención.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- TESTIMONIOS -->
 <section id="testimonios">
   <div class="container">
@@ -2389,12 +2503,18 @@ footer {
   <div class="cta-bg"></div>
   <div class="container cta-content reveal">
     <div class="section-label" style="justify-content:center;">Alto rendimiento automotriz</div>
-    <h2 class="cta-title">Tu vehículo merece<br>atención de <span>alto nivel</span></h2>
+    <h2 class="cta-title">Tu vehículo exige precisión.<br><span>Tu diagnóstico también.</span></h2>
     <div class="cta-border-line"></div>
-    <p class="cta-sub">Precisión, experiencia y rendimiento en cada diagnóstico.</p>
-    <a href="https://wa.me/524443860800?text=Hola%2C%20quiero%20agendar%20mi%20diagn%C3%B3stico%20hoy." class="btn-primary" target="_blank" style="font-size:15px;padding:22px 56px;letter-spacing:3px;">
-      Agenda hoy tu diagnóstico
-    </a>
+    <p class="cta-sub">Accede a una evaluación técnica respaldada por ingeniería automotriz especializada.</p>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;align-items:center;">
+      <a href="#" onclick="document.getElementById('hp-launcher').click();return false;" class="btn-primary" style="font-size:14px;padding:20px 48px;letter-spacing:2.5px;">
+        <svg style="width:16px;height:16px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        Iniciar Diagnóstico Inteligente
+      </a>
+      <a href="https://wa.me/524443860800" class="btn-secondary" target="_blank" style="font-size:14px;padding:20px 40px;">
+        Hablar con un especialista
+      </a>
+    </div>
   </div>
 </section>
 
@@ -2967,7 +3087,7 @@ footer {
 </style>
 
 <!-- Tooltip chat -->
-<div id="hp-tooltip">¿Tenés una consulta? <strong>Apretá acá</strong> y te ayudamos al instante.</div>
+<div id="hp-tooltip"><strong>Diagnóstico IA</strong> — Consultá tu falla ahora</div>
 
 <!-- Launcher -->
 <button id="hp-launcher" aria-label="Abrir asistente de diagnóstico">
@@ -2987,8 +3107,8 @@ footer {
       <div class="hp-status-dot"></div>
     </div>
     <div class="hp-chat-info">
-      <div class="hp-chat-name">HP Diagnostic AI</div>
-      <div class="hp-chat-role">Asistente de Prediagnóstico · En línea</div>
+      <div class="hp-chat-name">HP Intelligent Diagnostic System</div>
+      <div class="hp-chat-role">Análisis preliminar automatizado para atención especializada</div>
     </div>
     <button class="hp-chat-close" id="hp-close" aria-label="Cerrar">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
@@ -4284,7 +4404,6 @@ function closeServicios() {
 function escCloseServicios(e) {
   if (e.key === 'Escape') closeServicios();
 }
-</script>
 
 function openFAQ() {
   const modal = document.getElementById("faq-modal");
@@ -4320,5 +4439,22 @@ function closeMobileMenu() {
   if (hamburger) hamburger.classList.remove("open");
   document.body.style.overflow = "";
 }
+
+
+// ── Stat cards glow al terminar contador ──
+document.querySelectorAll('.stat-card').forEach(card => {
+  const counter = card.querySelector('.counter');
+  if (counter) {
+    const orig = counter.getAttribute('data-target');
+    const check = setInterval(() => {
+      if (counter.textContent == orig || parseInt(counter.textContent) >= parseInt(orig)) {
+        card.classList.add('counted');
+        clearInterval(check);
+      }
+    }, 100);
+  }
+});
+
+</script>
 </body>
 </html>
