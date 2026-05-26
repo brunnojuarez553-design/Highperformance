@@ -1024,6 +1024,11 @@ section { position: relative; }
 #servicios {
   padding: 120px 0;
   background: var(--black-2);
+  background-image: url('https://res.cloudinary.com/dvvuwigmy/image/upload/v1779750036/IMG_6892_gx94lo.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: scroll;
+  position: relative;
   border-top: 1px solid var(--gray-mid);
   max-height: 0;
   overflow: hidden;
@@ -1034,6 +1039,18 @@ section { position: relative; }
               opacity 0.5s ease,
               padding 0.5s ease;
   pointer-events: none;
+}
+#servicios::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(5,5,5,0.82);
+  z-index: 0;
+  pointer-events: none;
+}
+#servicios > * {
+  position: relative;
+  z-index: 1;
 }
 #servicios.visible {
   max-height: 2000px;
@@ -1423,6 +1440,76 @@ section { position: relative; }
   padding-top: 20px;
 }
 
+
+/* ── FAQ MODAL ── */
+#faq-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  background: #050505;
+  overflow-y: auto;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+#faq-modal.open { display: block; }
+#faq-modal.visible { opacity: 1; }
+.faq-modal-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 18px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(5,5,5,0.95);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border-bottom: 1px solid rgba(192,17,26,0.2);
+}
+.faq-modal-back {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  color: var(--titanium-light);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.faq-modal-back:hover { color: var(--white); }
+.faq-modal-back svg { width: 18px; height: 18px; }
+.faq-modal-body {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 80px 40px 120px;
+}
+.faq-modal-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 16px;
+}
+.faq-modal-title {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 7vw, 72px);
+  letter-spacing: 2px;
+  line-height: 1;
+  color: var(--white);
+  margin-bottom: 60px;
+}
+.faq-modal-title span { color: var(--red); }
+@media (max-width: 768px) {
+  .faq-modal-nav { padding: 16px 20px; }
+  .faq-modal-body { padding: 48px 20px 80px; }
+}
 /* ── FOOTER ── */
 footer {
   background: var(--black);
@@ -1791,7 +1878,7 @@ footer {
     <li><a href="#testimonios" class="mobile-link">Clientes <span class="arr">→</span></a></li>
     <li><a href="#ubicacion" class="mobile-link">Ubicación <span class="arr">→</span></a></li>
     <li><a href="#trabajos" class="mobile-link">Trabajos <span class="arr">→</span></a></li>
-    <li><a href="#faq" class="mobile-link">Preguntas frecuentes <span class="arr">→</span></a></li>
+    <li><a href="#" onclick="openFAQ();closeMobileMenu();return false;" class="mobile-link">Preguntas frecuentes <span class="arr">→</span></a></li>
   </ul>
   <div class="mobile-menu-cta">
     <a href="https://wa.me/524443860800?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20un%20diagn%C3%B3stico." target="_blank">Agendar diagnóstico</a>
@@ -2330,7 +2417,7 @@ footer {
             </div>
             <div>
               <div class="contact-label">Dirección</div>
-              <div class="contact-value">San Luis Potosí, SLP, México</div>
+              <div class="contact-value"><a href="https://maps.app.goo.gl/2jz9wBSUMG2va22r8" target="_blank" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(192,17,26,0.4);">Hielo 115, Garita de Jalisco<br>78294 San Luis Potosí, SLP</a></div>
             </div>
           </div>
           <div class="contact-item">
@@ -2372,26 +2459,30 @@ footer {
           </div>
         </div>
       </div>
-      <div class="map-placeholder reveal">
-        <div class="map-grid-inner"></div>
-        <div class="map-pin">
-          <div class="map-pin-dot"></div>
-          <div class="map-label">High Performance SLP</div>
-          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:2px;color:var(--red);margin-top:4px;">San Luis Potosí · México</div>
-        </div>
+      <div class="map-placeholder reveal" style="padding:0;overflow:hidden;border-radius:0;">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3693.4!2d-101.0101449!3d22.1385778!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842a98c61f862f27%3A0x79653230cb76d997!2sHielo+115%2C+Garita+de+Jalisco%2C+78294+San+Luis+Potos%C3%AD%2C+S.L.P.%2C+M%C3%A9xico!5e0!3m2!1ses!2smx!4v1700000000000"
+          width="100%" height="100%" style="border:0;filter:grayscale(30%) contrast(1.1);min-height:360px;display:block;"
+          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FAQ -->
-<section id="faq">
-  <div class="container">
-    <div class="reveal" style="max-width:600px;margin-bottom:0;">
-      <div class="section-label">Preguntas frecuentes</div>
-      <h2 class="section-title">Todo lo que<br><span>necesitas saber</span></h2>
-    </div>
-    <div class="faq-list reveal">
+<!-- FAQ MODAL -->
+<div id="faq-modal">
+  <div class="faq-modal-nav">
+    <button class="faq-modal-back" onclick="closeFAQ()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Volver
+    </button>
+  </div>
+  <div class="faq-modal-body">
+    <div class="faq-modal-label">Preguntas frecuentes</div>
+    <h2 class="faq-modal-title">Todo lo que<br><span>necesitas saber</span></h2>
+    <div class="faq-list">
+
       <div class="faq-item">
         <div class="faq-question">
           <span class="faq-q-text">¿Cuánto tiempo tarda un diagnóstico electrónico completo?</span>
@@ -2399,13 +2490,15 @@ footer {
         </div>
         <div class="faq-answer"><p>Un diagnóstico electrónico completo toma entre 1 y 2 horas dependiendo de la complejidad del vehículo. Incluye escaneo de todos los módulos, análisis de datos en tiempo real y reporte de resultados.</p></div>
       </div>
+
       <div class="faq-item">
         <div class="faq-question">
           <span class="faq-q-text">¿Trabajan con todo tipo de vehículos?</span>
           <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
         </div>
-        <div class="faq-answer"><p>Trabajamos con vehículos de todas las marcas — europeos, americanos y japoneses. Contamos con herramientas de diagnóstico compatibles con los sistemas OBD2 modernos y propietarios de las principales marcas.</p></div>
+        <div class="faq-answer"><p>Trabajamos con vehículos de todas las marcas — europeos, americanos, japoneses y coreanos. Contamos con herramientas de diagnóstico compatibles con sistemas OBD2, CAN y protocolos propietarios de las principales marcas.</p></div>
       </div>
+
       <div class="faq-item">
         <div class="faq-question">
           <span class="faq-q-text">¿Emiten algún reporte del diagnóstico o la intervención?</span>
@@ -2413,6 +2506,7 @@ footer {
         </div>
         <div class="faq-answer"><p>Sí. Cada diagnóstico se entrega con un reporte técnico que incluye los códigos detectados, análisis de causa raíz y las intervenciones realizadas. Guardamos historial de cada vehículo atendido.</p></div>
       </div>
+
       <div class="faq-item">
         <div class="faq-question">
           <span class="faq-q-text">¿Cómo puedo agendar una cita?</span>
@@ -2420,6 +2514,7 @@ footer {
         </div>
         <div class="faq-answer"><p>La forma más rápida es por WhatsApp. Escríbenos, cuéntanos el síntoma o situación de tu vehículo y te agendamos en el primer espacio disponible. También puedes llamarnos directamente.</p></div>
       </div>
+
       <div class="faq-item">
         <div class="faq-question">
           <span class="faq-q-text">¿Ofrecen garantía en sus trabajos?</span>
@@ -2427,9 +2522,66 @@ footer {
         </div>
         <div class="faq-answer"><p>Todas nuestras intervenciones tienen garantía. El período varía según el tipo de servicio realizado. Te especificamos la garantía correspondiente al momento de la entrega del vehículo.</p></div>
       </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span class="faq-q-text">¿Puedo llevar mi vehículo sin cita previa?</span>
+          <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        </div>
+        <div class="faq-answer"><p>Recomendamos agendar por WhatsApp para asegurarte un espacio y evitar tiempos de espera. Sin embargo, si tu situación es urgente, contáctanos primero y evaluamos disponibilidad del día.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span class="faq-q-text">¿Cuánto cuesta un diagnóstico electrónico?</span>
+          <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        </div>
+        <div class="faq-answer"><p>El costo varía según el tipo de vehículo y la profundidad del diagnóstico requerido. Contáctanos por WhatsApp con los datos de tu vehículo y te damos un precio exacto sin compromiso.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span class="faq-q-text">¿Trabajan con vehículos de lujo o importados?</span>
+          <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        </div>
+        <div class="faq-answer"><p>Sí. Tenemos experiencia con BMW, Audi, Mercedes-Benz, Porsche, Land Rover y otras marcas premium. Contamos con software propietario como VCDS, ISTA y herramientas OEM-level para diagnóstico especializado.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span class="faq-q-text">¿Pueden resolver una falla que otro taller no pudo diagnosticar?</span>
+          <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        </div>
+        <div class="faq-answer"><p>Es una de nuestras especialidades. Utilizamos metodología de análisis de causa raíz, lectura de datos PID en tiempo real y osciloscopio automotriz para detectar fallas intermitentes o sin código aparente que otros equipos no logran identificar.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span class="faq-q-text">¿Cuánto tiempo tarda una reparación de mecánica mayor?</span>
+          <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        </div>
+        <div class="faq-answer"><p>Depende del tipo de intervención. Cambio de empaque de culata o distribución completa puede tomar entre 1 y 3 días hábiles. Siempre te damos un tiempo estimado antes de iniciar el trabajo y te mantenemos informado del avance.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span class="faq-q-text">¿Usan refacciones originales o genéricas?</span>
+          <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        </div>
+        <div class="faq-answer"><p>Trabajamos con refacciones originales o de calidad equivalente certificada. Siempre te informamos las opciones disponibles con sus diferencias en precio y garantía para que tomes la mejor decisión.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span class="faq-q-text">¿Dónde están ubicados?</span>
+          <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+        </div>
+        <div class="faq-answer"><p>Estamos en San Luis Potosí. Puedes ver nuestra ubicación exacta en la sección de Ubicación del sitio o contactarnos por WhatsApp y te enviamos la dirección directamente.</p></div>
+      </div>
+
     </div>
   </div>
-</section>
+</div>
 
 <!-- FOOTER -->
 <footer>
@@ -2465,7 +2617,7 @@ footer {
           <li><a href="#diferenciales">Diferenciales</a></li>
           <li><a href="#proceso">Proceso</a></li>
           <li><a href="#testimonios">Testimonios</a></li>
-          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#" onclick="openFAQ();return false;">FAQ</a></li>
           <li><a href="#ubicacion">Ubicación</a></li>
         </ul>
       </div>
@@ -4133,5 +4285,40 @@ function escCloseServicios(e) {
   if (e.key === 'Escape') closeServicios();
 }
 </script>
+
+function openFAQ() {
+  const modal = document.getElementById("faq-modal");
+  modal.style.display = "block";
+  document.body.style.overflow = "hidden";
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      modal.classList.add("open", "visible");
+      modal.scrollTop = 0;
+    });
+  });
+  document.addEventListener("keydown", escCloseFAQ);
+}
+function closeFAQ() {
+  const modal = document.getElementById("faq-modal");
+  modal.classList.remove("visible");
+  setTimeout(() => {
+    modal.classList.remove("open");
+    modal.style.display = "none";
+    document.body.style.overflow = "";
+  }, 350);
+  document.removeEventListener("keydown", escCloseFAQ);
+}
+function escCloseFAQ(e) {
+  if (e.key === "Escape") closeFAQ();
+}
+function closeMobileMenu() {
+  const menu = document.getElementById("mobileMenu");
+  const overlay = document.getElementById("mobileMenuOverlay");
+  const hamburger = document.getElementById("hamburger");
+  if (menu) menu.classList.remove("open");
+  if (overlay) overlay.classList.remove("open");
+  if (hamburger) hamburger.classList.remove("open");
+  document.body.style.overflow = "";
+}
 </body>
 </html>
